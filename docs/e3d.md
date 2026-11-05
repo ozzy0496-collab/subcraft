@@ -24,7 +24,7 @@
 
 ## 改造ポイント（優先順）
 
-### 1. E3D 書き出しテンプレート（小）
+### 1. E3D 書き出しテンプレート（小）— 実装済み
 
 - `crates/export/src/template.rs`: `ExportTemplate::element_3d()` を追加し、`builtin()` に登録する。
   - Diffuse      = BaseColor RGB、sRGB
@@ -77,3 +77,16 @@
 - [ ] Glossiness = 1−Roughness で SubCraft のプレビューと近いか
 - [ ] map_Ns に画像パスを書いて Glossiness に自動で入るか（Texture Lab では確認済み）
 - [ ] SubCraft の OBJ 書き出しを E3D に読ませたとき、スケールと向きが合うか
+
+## 進捗
+
+### 2026-11-05 — 1. E3D 書き出しテンプレート
+- `crates/export/src/e3d.rs`: `ExportTemplate::element_3d()`（名前 "Element 3D (After Effects)"）。
+  `{mesh}_{set}_Diffuse / Reflectivity / Glossiness / Occlusion / Illumination / NormalBump.png`。
+  - Diffuse・Illumination は sRGB、Reflectivity（=Metallic）・Glossiness（=1−Roughness）・Occlusion はグレー3ch、
+    NormalBump は OpenGL(+Y) 既定。書き出し設定の法線規約（`normal_directx`）で DirectX に切り替え可能。
+  - `size_warning()`: E3D テンプレートでテクスチャセットが 2048px を超えるとき、書き出しダイアログに Map Size Limit の警告を出す。
+- 上流ファイルへの変更: `template.rs`（`builtin()` の末尾に登録、`OutputMap::new`/`rgb`/`normal` を `pub(crate)` に）、
+  `lib.rs`（`pub mod e3d;`）、`crates/ui/src/dialogs.rs`（警告表示 6 行）、テストの組み込みテンプレート数 9→10。
+- テスト: `crates/export/src/tests/e3d.rs`（各スロットの値、DirectX 切り替え、サイズ警告）。
+- 未実施: E3D 実機での見た目確認（上の「実機で検証すること」）。金属部の Diffuse を暗くするオプションは保留。

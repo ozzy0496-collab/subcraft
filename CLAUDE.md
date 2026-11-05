@@ -6,6 +6,8 @@ Build: `cargo build` · Run: `cargo run --release` · Test: `cargo test --worksp
 
 Read `docs/progress.md` first — it lists what is done and the ordered next steps.
 
+**This is the Element 3D fork (branch `e3d`).** Read `docs/e3d.md` for E3D's verified behaviour, the plan and E3D progress. Record E3D work there, not in `docs/progress.md` (upstream appends to it constantly, so fork edits would conflict on every merge). Keep E3D code in `e3d.rs` files and only add small registration hooks to upstream files.
+
 ## Architecture rules
 
 - Dependency direction: core ← image ← mesh/doc ← materials ← compositor/paint/bake ← project/export/assets ← app ← ui ← apps. No crate reaches upward.

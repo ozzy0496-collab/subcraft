@@ -48,7 +48,7 @@ pub struct OutputMap {
 }
 
 impl OutputMap {
-    fn new(suffix: &str, format: FileFormat, components: Vec<Source>, srgb: bool) -> Self {
+    pub(crate) fn new(suffix: &str, format: FileFormat, components: Vec<Source>, srgb: bool) -> Self {
         Self { suffix: suffix.into(), format, components, srgb }
     }
 }
@@ -59,11 +59,11 @@ pub struct ExportTemplate {
     pub maps: Vec<OutputMap>,
 }
 
-fn rgb(kind: ChannelKind) -> Vec<Source> {
+pub(crate) fn rgb(kind: ChannelKind) -> Vec<Source> {
     (0..3).map(|c| Source::ch(kind, c)).collect()
 }
 
-fn normal(directx: bool) -> Vec<Source> {
+pub(crate) fn normal(directx: bool) -> Vec<Source> {
     (0..3).map(|c| Source::Normal { component: c, directx }).collect()
 }
 
@@ -234,6 +234,6 @@ impl ExportTemplate {
     }
 
     pub fn builtin() -> Vec<ExportTemplate> {
-        vec![Self::pbr_metal_rough(), Self::unreal(), Self::unity_hdrp(), Self::gltf(), Self::unity_urp(), Self::godot(), Self::roblox(), Self::sketchfab(), Self::view_2d()]
+        vec![Self::pbr_metal_rough(), Self::unreal(), Self::unity_hdrp(), Self::gltf(), Self::unity_urp(), Self::godot(), Self::roblox(), Self::sketchfab(), Self::view_2d(), Self::element_3d()]
     }
 }

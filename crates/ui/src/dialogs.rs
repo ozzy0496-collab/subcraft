@@ -224,6 +224,13 @@ pub fn export_window(state: &mut UiState, ctx: &egui::Context, now: f64) {
             ui.end_row();
         });
         ex.settings.template = templates[ex.template].clone();
+        if !view_only
+            && let Some(w) = subcraft_export::e3d::size_warning(&ex.settings.template, state.session.document().texture_sets.iter().map(|t| t.resolution))
+        {
+            ui.add_space(4.0);
+            ui.colored_label(egui::Color32::from_rgb(230, 180, 80), w);
+        }
+        let ex = &mut state.export;
         let settings = ex.settings.clone();
         let folder = PathBuf::from(&ex.folder);
         if view_only {

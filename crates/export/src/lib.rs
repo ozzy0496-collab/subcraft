@@ -6,6 +6,7 @@
 //! all absent are skipped. Color channels are sRGB-encoded for integer formats and stay linear in
 //! EXR. Data channels are never color-transformed.
 
+pub mod e3d;
 pub mod psd;
 pub mod scene;
 pub mod selection;
